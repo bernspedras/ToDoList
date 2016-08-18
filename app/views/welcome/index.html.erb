@@ -1,11 +1,42 @@
 <% content_for :top_content do %>
+
+ <% if user_signed_in? %>
+         <h1>Home session</h1>
+		 <p>Current logged user - <%= current_user.name %></p>
+		 
+		 <h2>Tasks</h2>
+		<% current_user.tasks.each do |task| %>
+		  <p>
+			<strong>text:</strong>
+			<%= task.text %>
+		  </p>
+
+		<% end %>
+		 
+		<h2>Add a task:</h2>
+			<%= form_for([current_user, current_user.tasks.build]) do |f| %>
+			  <p>
+				<%= f.label :text %><br>
+				<%= f.text_area :text %>
+			  </p>
+			  <p>
+				<%= f.submit %>
+			  </p>
+			<% end %>
+  <% else %>
   <div class="jumbotron">
     <div class="container">
       <h1>Welcome!</h1>
-      <p>Register to get started.</p>
+      <p>Login to start using the best ToDoList app EVER!!!</p>
       <p>
-        <%= link_to 'Register', new_user_registration_path, class: 'btn btn-primary btn-lg' %>
+	    <%= link_to 'Log In', new_user_session_path, class: 'btn btn-primary btn-lg' %>
+      </p>     
+	  <p>Still not a user? Register now and join the FUN</p>
+      <p>
+        <%= link_to 'Register', new_user_registration_path, class: 'btn btn-primary btn-lg' %>	  
       </p>
     </div>
   </div>
+        <% end %>
+
 <% end %>
