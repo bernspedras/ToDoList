@@ -12,10 +12,10 @@
 			<% if task.completed? %>
 				<td>Done</td>
 			<% else %>
-			<td><%= link_to("Complete", user_task_path(current_user,task,:completed => "TRUE"), method: :put) %></td>
+			<td><%= link_to("Complete", complete_user_task_path(current_user,task,:completed => "TRUE"), method: :put) %></td>
 
 			<% end %>
-							<td><%= link_to("Delete", user_task_path(current_user,task), method: :delete) %></td>
+			<td><%= link_to("Delete", user_task_path(current_user,task), method: :delete) %></td>
 			<td><%= link_to("Edit", edit_user_task_path(current_user,task)) %></td>
 			</tr>
 			 
