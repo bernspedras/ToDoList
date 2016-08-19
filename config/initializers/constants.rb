@@ -1,0 +1,2 @@
+::MYCOLOURS =  ['#FA0B0B', '#0B4CFA', '#F3FA0B', '#0BFA3E', '#FA0BDD'].freeze
+::MYPHRASES =  ['Congratulation on completing your task!','You are the best! You just completed another task!', 'Great job! Another task done!', 'You should be proud! Just completed another task!', 'Thas wasnt so hard was it? One more task done!'].freeze

@@ -8,7 +8,6 @@ class TasksController < ApplicationController
   
   
 def create
-    #@article = Article.find(params[:article_id])
     @task = current_user.tasks.create(task_params) 
     redirect_to user_tasks_path(current_user)	
   end
@@ -16,19 +15,16 @@ def create
 def complete
 	@user = User.find(params[:user_id])
 	@task = @user.tasks.find(params[:id])
-	@task.update_attribute(:completed, params[:completed])
-	TaskCompleteEmailJob.perform_async(@user)
-	flash[:success] = "Your email has been send!"
-	#UserMailer.task_complete_email(@user).deliver_later
+	if @task.update_attribute(:completed, params[:completed])
+		@phrase = MYPHRASES[rand(5)]
+		@colour = MYCOLOURS[rand(5)]
+		TaskCompleteEmailJob.perform_async(@user, @task, @colour, @phrase)
+		createNewEvent
+		flash[:success] = "Congratulations on completing a task! A VERY important email was sent to you :)"
+	else
+		flash[:failure] = "Error, could not complete task"
 	
-	# respond_to do |format|
-        # Tell the UserMailer to send a welcome email after save
-       
- 
-    #    format.html { redirect_to(@user, notice: 'User was successfully created.') }
-    #    format.json { render json: @user, status: :created, location: @user }
-
-  #  end
+	end
 	
 	
 	redirect_to user_tasks_path(current_user)	
@@ -49,6 +45,16 @@ end
   redirect_to user_tasks_path(current_user)	
   end
   private
+	
+	def createNewEvent
+		infoValue ||= {}
+		infoValue[:colour] = @colour
+		infoValue[:phrase] = @phrase
+		infoValue[:user] = @user.name
+		@event = Event.new(event_type: 'TaskComplete' , info: infoValue)
+		@event.save
+	end
+  
     def task_params
       params.require(:task).permit(:text, :completed)
     end

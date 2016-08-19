@@ -4,14 +4,13 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Welcome to example.com, <%= @user.name %></h1>
-    <p>
-      You have successfully signed up to example.com,
-      your username is: <%= @user.name %>.<br>
+    <h1>Congratulations <%= @user.name %></h1>
+    <h2 style="color:<%= @colour %>">
+	<%= @phrase %>
+	 </h2>
+	 <p>	  
+	 Task Discription -  <%= @task.text %>
     </p>
-    <p>
-      To login to the site, just follow this link: <%= @url %>.
-    </p>
-    <p>Thanks for joining and have a great day!</p>
+    <p>Thanks for using ToDoList and have a great day!</p>
   </body>
 </html>
