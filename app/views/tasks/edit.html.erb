@@ -1,0 +1,21 @@
+<% content_for :top_content do %>
+
+  <div class="jumbotron">
+    <div class="container">	
+
+		<h1>Task</h1>
+		<h2>Edit the task:</h2>
+		    <%= form_for :task, url: user_task_path(current_user,@task), method: :patch do |f| %>
+			  <p>
+				<%= f.label :text %><br>
+				<%= f.text_area :text %>
+			  </p>			  
+				<%= f.hidden_field :completed, :value => "FALSE" %>
+			  <p>
+				<%= f.submit %>
+			  </p>
+			<% end %>
+			
+   </div>
+  </div>
+<% end %>

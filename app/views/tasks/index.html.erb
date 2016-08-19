@@ -1,0 +1,41 @@
+<% content_for :top_content do %>
+
+  <div class="jumbotron">
+    <div class="container">	
+
+				<h1>Tasks</h1>
+		 <table>
+		<% @tasks.each do |task| %>
+		   
+			 <tr>
+				<td><%= task.text %></td>
+			<% if task.completed? %>
+				<td>Done</td>
+			<% else %>
+			<td><%= link_to("Complete", user_task_path(current_user,task,:completed => "TRUE"), method: :put) %></td>
+
+			<% end %>
+							<td><%= link_to("Delete", user_task_path(current_user,task), method: :delete) %></td>
+			<td><%= link_to("Edit", edit_user_task_path(current_user,task)) %></td>
+			</tr>
+			 
+		<% end %>
+
+	</table>
+	
+	
+		<h2>Add a task:</h2>
+			<%= form_for([current_user, current_user.tasks.build]) do |f| %>
+			  <p>
+				<%= f.label :text %><br>
+				<%= f.text_area :text %>
+			  </p>			  
+				<%= f.hidden_field :completed, :value => "FALSE" %>
+			  <p>
+				<%= f.submit %>
+			  </p>
+			<% end %>
+			
+   </div>
+  </div>
+<% end %>
