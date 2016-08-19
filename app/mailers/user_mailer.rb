@@ -6,6 +6,6 @@ class UserMailer < ApplicationMailer
 	@phrase = phrase
 	@colour = colour
     @user = user
-    mail(to: @user.email, subject: 'Welcome to My Awesome Site')
+    mail(to: @user.email, subject: 'Task completed!')
   end
 end
