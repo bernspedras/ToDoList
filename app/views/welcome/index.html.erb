@@ -5,12 +5,10 @@
 	 <% if user_signed_in? %>
    
 
-         <h1><%= current_user.name %> , Welcome to ToDoList!!</h1>		 
+         <h1><%= current_user.name %>, Welcome to ToDoList!!</h1>		 
 		 <h2>Tasks sumary:</h2>
 		 <p>You have <%=current_user.tasks.size %> Total tasks!</p> 
 		 <%= link_to("Manage Tasks", user_tasks_path(current_user)) %>
-
-
 	
   <% else %>
 	

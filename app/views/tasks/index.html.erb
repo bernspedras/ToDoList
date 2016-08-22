@@ -3,39 +3,46 @@
   <div class="jumbotron">
     <div class="container">	
 
-				<h1>Tasks</h1>
-		 <table>
-		<% @tasks.each do |task| %>
-		   
-			 <tr>
-				<td><%= task.text %></td>
-			<% if task.completed? %>
-				<td>Done</td>
-			<% else %>
-			<td><%= link_to("Complete", complete_user_task_path(current_user,task,:completed => "TRUE"), method: :put) %></td>
-
-			<% end %>
-			<td><%= link_to("Delete", user_task_path(current_user,task), method: :delete) %></td>
-			<td><%= link_to("Edit", edit_user_task_path(current_user,task)) %></td>
+		<h1>Tasks</h1>
+		 <table class="table table-striped table-bordered table-hover table-reflow">
+		  <thead class="thead-inverse">
+			<tr>
+			  <th>Task</th>
+			  <th width="40px" >Status</th>
+			  <th width="40px"></th>
+			  <th width="40px" ></th>
 			</tr>
+		  </thead>
+		<% @tasks.each do |task| %>
+				<tr>
+			
+					<td><%= task.text %></td>
+				<% if task.completed? %>
+					<td>Done</td>
+				<% else %>
+				<td><%= link_to("Complete", complete_user_task_path(current_user,task,:completed => "TRUE"), method: :put) %></td>
+
+				<% end %>
+				<td><%= link_to("Edit", edit_user_task_path(current_user,task)) %></td>
+				<td><%= link_to("Delete", user_task_path(current_user,task), method: :delete, data: { confirm: "Are you sure?" }) %></td>
+				</tr>
 			 
 		<% end %>
 
 	</table>
-	
-	
-		<h2>Add a task:</h2>
-			<%= form_for([current_user, current_user.tasks.build]) do |f| %>
+
+		<h2>Add a new task:</h2>
+
+			<%= form_for [current_user, current_user.tasks.build], :html => {'class' => 'form-group'} do |f| %>
 			  <p>
 				<%= f.label :text %><br>
-				<%= f.text_area :text %>
+				<%= f.text_area :text, :class  => 'form-control' %>
 			  </p>			  
 				<%= f.hidden_field :completed, :value => "FALSE" %>
 			  <p>
 				<%= f.submit %>
 			  </p>
 			<% end %>
-			
    </div>
   </div>
 <% end %>

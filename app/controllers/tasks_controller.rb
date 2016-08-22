@@ -25,13 +25,10 @@ def complete
 		flash[:failure] = "Error, could not complete task"
 	
 	end
-	
-	
 	redirect_to user_tasks_path(current_user)	
 end
  
   def update
-	#render plain: params.inspect
 	@task = User.find(params[:user_id]).tasks.find(params[:id])
 	@task.update_attribute(:completed, params[:completed])
 	@task.update_attribute(:text, params[:task][:text])	
@@ -39,11 +36,11 @@ end
   end
   
   def destroy
-  @task = User.find(params[:user_id]).tasks.find(params[:id])
-  @task.destroy
- 
-  redirect_to user_tasks_path(current_user)	
+      @task = User.find(params[:user_id]).tasks.find(params[:id])
+      @task.destroy
+      redirect_to user_tasks_path(current_user)	
   end
+  
   private
 	
 	def createNewEvent
