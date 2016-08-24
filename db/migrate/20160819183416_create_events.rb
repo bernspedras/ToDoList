@@ -3,7 +3,7 @@ class CreateEvents < ActiveRecord::Migration[5.0]
     create_table :events do |t|
       t.string :event_type
       t.json :info
-
+      t.references :task
       t.timestamps
     end
   end

@@ -18,8 +18,10 @@ ActiveRecord::Schema.define(version: 20160819183416) do
   create_table "events", force: :cascade do |t|
     t.string   "event_type"
     t.json     "info"
+    t.integer  "task_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_events_on_task_id", using: :btree
   end
 
   create_table "tasks", force: :cascade do |t|
