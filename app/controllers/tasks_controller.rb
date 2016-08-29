@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+
   def index
     @tasks = current_user.tasks.all
   end
@@ -8,27 +9,36 @@ class TasksController < ApplicationController
   
   
 def create
-    @task = current_user.tasks.create(task_params) 
-    ActionCable.server.broadcast "AsyncRequestChannel", { title: 'MANDANDO MSG', body: 'All the news that is fit to print' }
+    @task = current_user.tasks.create(task_params)
+    respond_to do |format|
+        format.html { redirect_to user_tasks_path(current_user)	, notice: 'Task was successfully created.' }
+        format.js   {}
+        format.json { render json: @task, status: :created, location: @task }    
+    end
+  #  ActionCable.server.broadcast "AsyncRequestChannel", { title: 'MANDANDO MSG', body: 'All the news that is fit to print' }
    # redirect_to user_tasks_path(current_user)	
   end
  
 def complete
-	@user = User.find(params[:user_id])
-	@task = @user.tasks.find(params[:id])
+	#@user = User.find(params[:user_id])
+	@task = Task.find(params[:id])
 	if @task.update_attribute(:completed, params[:completed])
         create_task_completed_event
         TaskCompleteEmailJob.perform_async(@event)
-		flash[:success] = "Congratulations on completing a task! A VERY important email was sent to you :)"
+		#flash[:success] = "Congratulations on completing a task! A VERY important email was sent to you :)"
 	else
-		flash[:failure] = "Error, could not complete task"
-	
+		#flash[:failure] = "Error, could not complete task"
 	end
-	redirect_to user_tasks_path(current_user)	
+   respond_to do |format|
+        format.html { redirect_to user_tasks_path(current_user)	, notice: 'Task was successfully completed.' }
+        format.js   { }
+        format.json { render json: @task, status: :completed, location: @task }    
+    end
+	#redirect_to user_tasks_path(current_user)	
 end
  
   def update
-	@task = User.find(params[:user_id]).tasks.find(params[:id])
+	@task = Task.find(params[:id])
 	@task.update_attribute(:completed, params[:completed])
 	@task.update_attribute(:text, params[:task][:text])	
 	redirect_to user_tasks_path(current_user)	
@@ -37,7 +47,11 @@ end
   def destroy
       @task = Task.find(params[:id])
       @task.destroy
-      redirect_to user_tasks_path(current_user)	
+    respond_to do |format|
+            format.html { redirect_to user_tasks_path(current_user)		, notice: 'Task was successfully deleted.' }
+            format.js   {}
+            format.json { render json: @task, status: :completed, location: @task }    
+    end
   end
   
   private

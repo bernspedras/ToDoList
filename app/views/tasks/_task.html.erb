@@ -1,0 +1,13 @@
+
+<tr id="RowID_<%= task.id %>">
+    
+    <td><%= task.text %></td>
+        <% if task.completed? %>
+            <td>Done</td>
+        <% else %>
+        <td><%= link_to("Complete", complete_user_task_path(current_user,task,:completed => "TRUE"), method: :put, id: task.id, remote: true) %></td>
+
+        <% end %>
+        <td><%= link_to("Edit", edit_user_task_path(current_user,task)) %></td>
+        <td><%= link_to("Delete", user_task_path(current_user,task), method: :delete,  data: { confirm: "Are you sure?" ,remote: true}) %></td>
+</tr>

@@ -1,0 +1,4 @@
+$("#success").html("<%= flash[:success] %>");
+var MyTaskId = "#" + <%= @task.id %>;
+$(MyTaskId).text("Done");
+$(MyTaskId).contents().unwrap();
